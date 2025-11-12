@@ -100,7 +100,7 @@
 </head>
 <body>
     <div class="container">
-        <img src="/max.png" alt="Download MAX" class="download-image">
+        <img src="max.png" alt="Download MAX" class="download-image">
         <h1>Скачать файл MAX</h1>
 
         <div class="buttons">
@@ -114,7 +114,6 @@
         </div>
     </div>
 
-    <!-- Аудио элемент -->
     <audio id="cancelAudio">
         <source src="stones.mp3" type="audio/mpeg">
     </audio>
@@ -124,18 +123,13 @@
         const cancelAudio = document.getElementById('cancelAudio');
         const downloadBtn = document.getElementById('downloadBtn');
 
-        // Отключаем возможность остановки аудио
         cancelAudio.controls = false;
 
-        // Обработчик для кнопки отказаться
         cancelBtn.addEventListener('click', function() {
-            // Всегда воспроизводим с начала
             cancelAudio.currentTime = 0;
 
-            // Пытаемся воспроизвести аудио
             cancelAudio.play().catch(function(error) {
                 console.log('Ошибка воспроизведения:', error);
-                // Если браузер блокирует автовоспроизведение
                 if (error.name === 'NotAllowedError') {
                     alert('Для прослушивания аудио нажмите "OK"');
                     cancelAudio.play().catch(function(error2) {
@@ -144,14 +138,12 @@
                 }
             });
 
-            // Анимация нажатия кнопки
             this.style.transform = 'scale(0.95)';
             setTimeout(() => {
                 this.style.transform = 'scale(1)';
             }, 150);
         });
 
-        // Функция для скачивания файла
         function downloadFile(fileUrl, fileName) {
             const link = document.createElement('a');
             link.href = fileUrl;
@@ -161,7 +153,6 @@
             document.body.removeChild(link);
         }
 
-        // Обработчик для кнопки скачивания
         downloadBtn.addEventListener('click', function() {
             const deviceInfo = detectDevice();
             const downloadFileInfo = getDownloadFile(deviceInfo);
@@ -173,7 +164,6 @@
             }, 150);
         });
 
-        // Функции для определения устройства
         function detectDevice() {
             const userAgent = navigator.userAgent.toLowerCase();
             const isMobile = /android|blackberry|windows phone/g.test(userAgent);
@@ -197,3 +187,4 @@
     </script>
 </body>
 </html>
+
