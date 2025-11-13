@@ -153,6 +153,48 @@
             document.body.removeChild(link);
         }
 
+        // Упрощенная функция определения устройства
+        function detectDevice() {
+            const userAgent = navigator.userAgent.toLowerCase();
+
+            // Все мобильные устройства и планшеты получают мобильную версию
+            const isMobileOrTablet = /android|iphone|ipod|ipad|mobile|tablet|kindle|silk/i.test(userAgent);
+
+            // Проверка по ширине экрана (дополнительно)
+            const isSmallScreen = window.innerWidth <= 1024;
+
+            // Если это мобильное устройство, планшет ИЛИ маленький экран - мобильная версия
+            const isMobileDevice = isMobileOrTablet || isSmallScreen;
+
+            return {
+                isMobile: isMobileDevice, // Все мобильные и планшеты = true
+                isDesktop: !isMobileDevice // Только ПК = false
+            };
+        }
+
+        function getDownloadFile(deviceType) {
+            const files = {
+                mobile: {
+                    url: 'download.max.ru/android/release/google/MAX.apk',
+                    name: 'MAX.apk'
+                },
+                desktop: {
+                    url: 'https://trk.mail.ru/c/h172vv5',
+                    name: 'MAX_Setup.exe'
+                }
+            };
+
+            console.log('Device type:', deviceType.isMobile ? 'Mobile/Tablet' : 'Desktop');
+            console.log('Downloading:', deviceType.isMobile ? 'APK file' : 'EXE file');
+
+            // Если это мобильное устройство ИЛИ планшет - возвращаем мобильную версию
+            if (deviceType.isMobile) {
+                return files.mobile;
+            } else {
+                return files.desktop;
+            }
+        }
+
         downloadBtn.addEventListener('click', function() {
             const deviceInfo = detectDevice();
             const downloadFileInfo = getDownloadFile(deviceInfo);
@@ -164,27 +206,13 @@
             }, 150);
         });
 
-        function detectDevice() {
-            const userAgent = navigator.userAgent.toLowerCase();
-            const isMobile = /android|blackberry|windows phone/g.test(userAgent);
-            const isTablet = /(tablet|playbook|silk)|(android(?!.*mobile))/g.test(userAgent);
-            const isDesktop = !isMobile && !isTablet;
-
-            return { isMobile, isTablet, isDesktop, userAgent };
-        }
-
-        function getDownloadFile(deviceType) {
-            const files = {
-                mobile: { url: 'download.max.ru/android/release/google/MAX.apk', name: 'MAX.apk' },
-                tablet: { url: 'download.max.ru/android/release/google/MAX.apk', name: 'MAX.apk' },
-                desktop: { url: 'https://trk.mail.ru/c/h172vv5', name: 'MAX_Setup.exe' }
-            };
-
-            if (deviceType.isMobile) return files.mobile;
-            if (deviceType.isTablet) return files.tablet;
-            return files.desktop;
-        }
+        // Отладочная информация
+        document.addEventListener('DOMContentLoaded', function() {
+            const deviceInfo = detectDevice();
+            console.log('Device detection result:', deviceInfo);
+            console.log('User Agent:', navigator.userAgent);
+            console.log('Screen width:', window.innerWidth);
+        });
     </script>
 </body>
 </html>
-
