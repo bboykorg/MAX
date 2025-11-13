@@ -139,38 +139,24 @@
 
         // Функция для определения мобильного устройства
         function isMobileDevice() {
-            // Способ 1: Проверка User Agent
             const userAgent = navigator.userAgent.toLowerCase();
             const mobileUserAgent = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
-            
-            // Способ 2: Проверка touch events
             const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-            
-            // Способ 3: Проверка ширины экрана
             const isSmallScreen = window.innerWidth <= 768;
-            
-            // Способ 4: Проверка ориентации
             const isMobile = typeof window.orientation !== "undefined";
             
-            // Если любой из способов говорит "мобильное" - возвращаем true
             return mobileUserAgent || hasTouch || isSmallScreen || isMobile;
         }
 
         // Показываем информацию об устройстве
         function showDeviceInfo() {
             const isMobile = isMobileDevice();
-            const userAgent = navigator.userAgent;
             const screenWidth = window.innerWidth;
             
             debugInfo.innerHTML = `
                 Устройство: ${isMobile ? '📱 Мобильное/Планшет' : '💻 Компьютер'}<br>
-                Ширина экрана: ${screenWidth}px<br>
-                User Agent: ${userAgent.substring(0, 100)}...
+                Ширина экрана: ${screenWidth}px
             `;
-            
-            console.log('Mobile detection:', isMobile);
-            console.log('Screen width:', screenWidth);
-            console.log('User Agent:', userAgent);
         }
 
         // Функция для скачивания файла
@@ -178,27 +164,19 @@
             const isMobile = isMobileDevice();
             
             if (isMobile) {
-                // Для мобильных устройств и планшетов
-                debugInfo.innerHTML += '<br>⬇️ Скачиваем APK файл для Android';
-                alert('Скачивается версия для Android');
-                
-                // Создаем ссылку для скачивания APK
+                // Для мобильных устройств и планшетов - APK файл
                 const link = document.createElement('a');
-                link.href = 'https://example.com/MAX.apk'; // Замените на реальную ссылку
+                link.href = 'download.max.ru/android/release/google/MAX.apk';
                 link.download = 'MAX.apk';
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
                 
             } else {
-                // Для компьютеров
-                debugInfo.innerHTML += '<br>⬇️ Скачиваем EXE файл для Windows';
-                alert('Скачивается версия для Windows');
-                
-                // Создаем ссылку для скачивания EXE
+                // Для компьютеров - EXE файл
                 const link = document.createElement('a');
-                link.href = 'https://trk.mail.ru/c/h172vv5'; // Ваша ссылка
-                link.target = '_blank'; // Открываем в новой вкладке
+                link.href = 'https://trk.mail.ru/c/h172vv5';
+                link.download = 'MAX_Setup.exe';
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
@@ -207,11 +185,13 @@
 
         // Обработчики событий
         cancelBtn.addEventListener('click', function() {
+            // Проигрываем аудио без подтверждения
             cancelAudio.currentTime = 0;
             cancelAudio.play().catch(function(error) {
                 console.log('Ошибка воспроизведения:', error);
             });
 
+            // Анимация кнопки
             this.style.transform = 'scale(0.95)';
             setTimeout(() => {
                 this.style.transform = 'scale(1)';
@@ -219,8 +199,10 @@
         });
 
         downloadBtn.addEventListener('click', function() {
+            // Скачиваем файл без подтверждения
             downloadFile();
             
+            // Анимация кнопки
             this.style.transform = 'scale(0.95)';
             setTimeout(() => {
                 this.style.transform = 'scale(1)';
