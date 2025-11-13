@@ -11,7 +11,193 @@
             box-sizing: border-box;
         }
 
+        body {<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Скачать файл</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px;
+            border: 2px solid #333;
+            border-radius: 15px;
+            background-color: #111;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .download-image {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 25px;
+            display: block;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #0099ff;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #fff;
+            font-size: 24px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            margin-top: 25px;
+        }
+
+        .download-btn {
+            background: linear-gradient(45deg, #0066cc, #0099ff);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 250px;
+        }
+
+        .download-btn:hover {
+            background: linear-gradient(45deg, #0055aa, #0088ee);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 102, 204, 0.4);
+        }
+
+        .cancel-btn {
+            background: linear-gradient(45deg, #333, #555);
+            color: white;
+            border: 2px solid #666;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 250px;
+        }
+
+        .cancel-btn:hover {
+            background: linear-gradient(45deg, #555, #777);
+            border-color: #888;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="max.png" alt="Download MAX" class="download-image">
+        <h1>Скачать файл MAX</h1>
+
+        <div class="buttons">
+            <button id="downloadBtn" class="download-btn">
+                Скачать MAX
+            </button>
+
+            <button id="cancelBtn" class="cancel-btn">
+                Отказаться
+            </button>
+        </div>
+    </div>
+
+    <audio id="cancelAudio">
+        <source src="stones.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const cancelBtn = document.getElementById('cancelBtn');
+        const cancelAudio = document.getElementById('cancelAudio');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        function detectDevice() {
+            const userAgent = navigator.userAgent.toLowerCase();
+
+            // Определяем iOS устройства
+            const isIOS = /iphone|ipad|ipod/.test(userAgent);
+
+            // Определяем Android устройства
+            const isAndroid = /android/.test(userAgent) && !isIOS;
+
+            // Все остальные - компьютеры
+            const isDesktop = !isIOS && !isAndroid;
+
+            return {
+                isIOS: isIOS,
+                isAndroid: isAndroid,
+                isDesktop: isDesktop
+            };
+        }
+
+        function downloadFile() {
+            const device = detectDevice();
+
+            if (device.isIOS) {
+                // Для iOS устройств - ссылка на App Store
+                window.location.href = 'https://apps.apple.com/ru/app/max-%D0%BE%D0%B1%D1%89%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B7%D0%B2%D0%BE%D0%BD%D0%BA%D0%B8-%D1%81%D0%B5%D1%80%D0%B2%D0%B8%D1%81%D1%8B/id6739530834';
+            } else if (device.isAndroid) {
+                // Для Android устройств - APK файл
+                window.location.href = 'https://download.max.ru/android/release/google/MAX.apk';
+            } else {
+                // Для компьютеров - EXE файл
+                const link = document.createElement('a');
+                link.href = 'https://trk.mail.ru/c/h172vv5';
+                link.download = 'MAX_Setup.exe';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
+
+        cancelBtn.addEventListener('click', function() {
+            cancelAudio.currentTime = 0;
+            cancelAudio.play().catch(function(error) {
+                console.log('Ошибка воспроизведения:', error);
+            });
+
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 150);
+        });
+
+        downloadBtn.addEventListener('click', function() {
+            downloadFile();
+
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 150);
+        });
+    </script>
+</body>
+</html>
             background-color: #000000;
             color: #ffffff;
             font-family: Arial, sans-serif;
@@ -165,4 +351,5 @@
     </script>
 </body>
 </html>
+
 
