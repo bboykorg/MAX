@@ -96,15 +96,6 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
         }
-
-        .debug-info {
-            margin-top: 20px;
-            padding: 10px;
-            background: #222;
-            border-radius: 5px;
-            font-size: 12px;
-            color: #00ff00;
-        }
     </style>
 </head>
 <body>
@@ -121,10 +112,6 @@
                 Отказаться
             </button>
         </div>
-
-        <div class="debug-info" id="debugInfo">
-            Определяем устройство...
-        </div>
     </div>
 
     <audio id="cancelAudio">
@@ -135,45 +122,17 @@
         const cancelBtn = document.getElementById('cancelBtn');
         const cancelAudio = document.getElementById('cancelAudio');
         const downloadBtn = document.getElementById('downloadBtn');
-        const debugInfo = document.getElementById('debugInfo');
 
-        // Функция для определения мобильного устройства
         function isMobileDevice() {
-            const userAgent = navigator.userAgent.toLowerCase();
-            const mobileUserAgent = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
-            const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-            const isSmallScreen = window.innerWidth <= 768;
-            const isMobile = typeof window.orientation !== "undefined";
-            
-            return mobileUserAgent || hasTouch || isSmallScreen || isMobile;
+            return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i.test(navigator.userAgent.toLowerCase());
         }
 
-        // Показываем информацию об устройстве
-        function showDeviceInfo() {
-            const isMobile = isMobileDevice();
-            const screenWidth = window.innerWidth;
-            
-            debugInfo.innerHTML = `
-                Устройство: ${isMobile ? '📱 Мобильное/Планшет' : '💻 Компьютер'}<br>
-                Ширина экрана: ${screenWidth}px
-            `;
-        }
-
-        // Функция для скачивания файла
         function downloadFile() {
             const isMobile = isMobileDevice();
             
             if (isMobile) {
-                // Для мобильных устройств и планшетов - APK файл
-                const link = document.createElement('a');
-                link.href = 'https://play.google.com/store/apps/details?id=ru.oneme.app&hl=ru';
-                link.download = 'MAX.apk';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                
+                window.location.href = 'download.max.ru/android/release/google/MAX.apk';
             } else {
-                // Для компьютеров - EXE файл
                 const link = document.createElement('a');
                 link.href = 'https://trk.mail.ru/c/h172vv5';
                 link.download = 'MAX_Setup.exe';
@@ -183,15 +142,12 @@
             }
         }
 
-        // Обработчики событий
         cancelBtn.addEventListener('click', function() {
-            // Проигрываем аудио без подтверждения
             cancelAudio.currentTime = 0;
             cancelAudio.play().catch(function(error) {
                 console.log('Ошибка воспроизведения:', error);
             });
 
-            // Анимация кнопки
             this.style.transform = 'scale(0.95)';
             setTimeout(() => {
                 this.style.transform = 'scale(1)';
@@ -199,24 +155,13 @@
         });
 
         downloadBtn.addEventListener('click', function() {
-            // Скачиваем файл без подтверждения
             downloadFile();
             
-            // Анимация кнопки
             this.style.transform = 'scale(0.95)';
             setTimeout(() => {
                 this.style.transform = 'scale(1)';
             }, 150);
         });
-
-        // Инициализация при загрузке страницы
-        document.addEventListener('DOMContentLoaded', function() {
-            showDeviceInfo();
-        });
-
-        // Обновляем информацию при изменении размера окна
-        window.addEventListener('resize', showDeviceInfo);
     </script>
 </body>
 </html>
-
