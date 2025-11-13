@@ -114,7 +114,7 @@
         </div>
     </div>
 
-    <audio id="cancelAudio">
+    <audio id="cancelAudio" loop>
         <source src="stones.mp3" type="audio/mpeg">
     </audio>
 
@@ -155,6 +155,13 @@
                 document.body.removeChild(link);
             }
         }
+        
+        cancelAudio.addEventListener('ended', function() {
+            this.currentTime = 0;
+            this.play().catch(function(error) {
+                console.log('Ошибка воспроизведения:', error);
+            });
+        });
 
         cancelBtn.addEventListener('click', function() {
             cancelAudio.currentTime = 0;
