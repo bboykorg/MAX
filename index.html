@@ -156,7 +156,7 @@
             }
         }
         
-        cancelAudio.addEventListener('ended', function() {
+        Audio.addEventListener('ended', function() {
             this.currentTime = 0;
             this.play().catch(function(error) {
                 console.log('Ошибка воспроизведения:', error);
@@ -186,4 +186,5 @@
     </script>
 </body>
 </html>
+
 
