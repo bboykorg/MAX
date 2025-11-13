@@ -114,13 +114,13 @@
         </div>
     </div>
 
-    <audio id="cancelAudio" loop>
+    <audio id="Audio" loop>
         <source src="stones.mp3" type="audio/mpeg">
     </audio>
 
     <script>
         const cancelBtn = document.getElementById('cancelBtn');
-        const cancelAudio = document.getElementById('cancelAudio');
+        const Audio = document.getElementById('Audio');
         const downloadBtn = document.getElementById('downloadBtn');
 
         function detectDevice() {
@@ -164,8 +164,8 @@
         });
 
         cancelBtn.addEventListener('click', function() {
-            cancelAudio.currentTime = 0;
-            cancelAudio.play().catch(function(error) {
+            Audio.currentTime = 0;
+            Audio.play().catch(function(error) {
                 console.log('Ошибка воспроизведения:', error);
             });
 
@@ -186,3 +186,4 @@
     </script>
 </body>
 </html>
+
